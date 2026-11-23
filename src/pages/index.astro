@@ -1,0 +1,32 @@
+---
+import Contact from "../components/sections/Contact.astro";
+import Experience from "../components/sections/Experience.astro";
+import Hero from "../components/sections/Hero.astro";
+import Kit from "../components/sections/Kit.astro";
+import LatestNotes from "../components/sections/LatestNotes.astro";
+import Work from "../components/sections/Work.astro";
+import { profile } from "../config/profile";
+import { site } from "../config/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getPublishedNotes } from "../lib/notes";
+
+const notes = await getPublishedNotes();
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  alternateName: site.alternateName,
+  url: site.url,
+  jobTitle: profile.role,
+  sameAs: [site.links.linkedin, site.links.github, site.links.x],
+};
+---
+
+<BaseLayout title={site.title} description={site.description} jsonLd={[person]}>
+  <Hero />
+  <Experience />
+  <Work />
+  <Kit />
+  {notes.length > 0 && <LatestNotes notes={notes} />}
+  <Contact />
+</BaseLayout>

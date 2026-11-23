@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found"
+  description="There is no page at this address."
+>
+  <div class="q-main q-wrap">
+    <div class="q-grid">
+      <p class="q-label q-col-label q-muted">404</p>
+      <div class="q-col-content">
+        <h1 class="q-page-title">This page doesn't exist.</h1>
+        <p class="q-page-lead">
+          The link may be old or mistyped. Everything on the site starts from{" "}
+          <a class="q-link" href="/">
+            the home page
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

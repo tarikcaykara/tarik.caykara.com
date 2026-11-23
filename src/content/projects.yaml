@@ -1,0 +1,24 @@
+fund-origin-tracer:
+  name: Fund origin tracer
+  kind: Open-source project
+  problem: "Compliance, fraud and incident-response teams need to know where funds came from and where they went. Commercial know-your-transaction tools are expensive and return a risk score you cannot inspect."
+  built: "A self-hosted tracer in Bun and TypeScript that follows funds backward to their source or forward to their destination, from up to 20 transaction hashes or addresses on Ethereum, Polygon, Arbitrum and TRON. It stops at labeled exchanges, bridges, mixers and OFAC-sanctioned addresses, finds linked wallets and exchange touchpoints, and sets the risk level from explainable flags in a policy file you can read and override. It comes with a web UI that streams the trace graph live, a CLI, a REST and SSE API, and a printable evidence report."
+  outcome: "Released under the MIT license. Every followed transfer, dropped candidate and stop reason is visible in the result, each of the 244 bundled address labels cites a verified public source, and three recorded demos replay offline without API keys."
+  stack: [TypeScript, Bun, React, Hono, SQLite, Docker]
+  metrics:
+    - { value: "16 flags", label: "explainable, overridable in a policy file" }
+    - { value: "4 chains", label: "Ethereum · Polygon · Arbitrum · TRON" }
+  link: https://github.com/tarikcaykara/fund-origin-tracer
+  order: 1
+funding-rate-feed:
+  name: Predicted funding aggregator
+  kind: Open-source project
+  problem: "The Coinalyze API returns predicted funding rates per venue, some per hour and some per 8 hours, but no aggregate. Coinalyze shows the aggregate only as a chart on coinalyze.net, and that chart lags behind."
+  built: "A Bun and TypeScript service that pulls predicted funding rates for BTC, ETH and SOL from the Coinalyze API for the ten venues coinalyze.net aggregates, normalizes each to % per 8 hours, drops stale values and streams simple and open-interest-weighted averages over an authenticated WebSocket. A live dashboard shows both averages next to the per-venue breakdown, and the chart history is kept in SQLite across restarts."
+  outcome: "Checked against the reference chart over 40 samples: every venue with a rate landed within 5% of its expected ratio, and the chart lagged the API by about 165 minutes for ETH and SOL. Container image cut from 1.32 GB to about 260 MB."
+  stack: [TypeScript, Bun, WebSocket, SQLite, Docker, GitHub Actions]
+  metrics:
+    - { value: "within 5%", label: "every venue with an API rate, 40 samples" }
+    - { value: "1.32 GB → ~260 MB", label: "container image" }
+  link: https://github.com/tarikcaykara/predicted-funding-aggregator
+  order: 2

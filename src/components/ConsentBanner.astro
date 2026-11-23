@@ -1,0 +1,182 @@
+---
+// Analytics consent. The script shows the banner until the visitor chooses, and
+// the footer's "Cookie settings" button reopens it. Google Analytics loads only
+// after "Accept"; without JavaScript nothing shows and nothing loads.
+import { site } from "../config/site";
+---
+
+<div
+  class="q-consent"
+  role="dialog"
+  aria-labelledby="consent-title"
+  aria-describedby="consent-text"
+  data-consent
+  data-ga-id={site.googleAnalyticsId}
+  hidden
+>
+  <p class="q-consent__title" id="consent-title">
+    Analytics
+  </p>
+  <p class="q-consent__text" id="consent-text">
+    This site can use Google Analytics to count visits. It sets cookies, so it
+    only runs if you accept.
+  </p>
+  <div class="q-consent__actions">
+    <button type="button" class="q-btn q-btn--sm" data-choice="granted">
+      Accept
+    </button>
+    <button type="button" class="q-btn q-btn--sm" data-choice="denied">
+      Decline
+    </button>
+  </div>
+</div>
+
+<script>
+  type Choice = "granted" | "denied";
+
+  const KEY = "analytics-consent";
+  const banner = document.querySelector<HTMLElement>("[data-consent]")!;
+  const reopen = document.querySelector<HTMLElement>("[data-consent-open]");
+  const id = banner.dataset.gaId!;
+  // Host-only cookies: nothing is written to the caykara.com parent domain.
+  const config = { cookie_domain: "none" };
+  const page = window as unknown as Record<string, unknown> & {
+    dataLayer?: unknown[];
+  };
+  const dataLayer = (page.dataLayer ??= []);
+  let started = false;
+  let reopened = false;
+
+  function gtag(..._args: unknown[]) {
+    // gtag.js only reads Arguments objects from the data layer, not arrays.
+    dataLayer.push(arguments);
+  }
+
+  function readChoice(): Choice | null {
+    try {
+      const value = localStorage.getItem(KEY);
+      return value === "granted" || value === "denied" ? value : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveChoice(choice: Choice) {
+    try {
+      localStorage.setItem(KEY, choice);
+    } catch {
+      // Storage blocked: the banner asks again on the next page.
+    }
+  }
+
+  function startAnalytics() {
+    page[`ga-disable-${id}`] = false;
+    if (started) {
+      gtag("config", id, config);
+      return;
+    }
+    started = true;
+    gtag("js", new Date());
+    gtag("config", id, config);
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    document.head.append(script);
+  }
+
+  function stopAnalytics() {
+    page[`ga-disable-${id}`] = true;
+    for (const cookie of document.cookie.split(";")) {
+      const name = cookie.split("=")[0].trim();
+      if (name.startsWith("_ga")) {
+        document.cookie = `${name}=; Max-Age=0; path=/`;
+      }
+    }
+  }
+
+  banner.addEventListener("click", (event) => {
+    const button = (event.target as Element).closest<HTMLElement>(
+      "[data-choice]",
+    );
+    if (!button) return;
+    const choice = button.dataset.choice as Choice;
+    saveChoice(choice);
+    banner.hidden = true;
+    // Back to "Cookie settings" when the banner was reopened from there.
+    if (reopened) {
+      reopened = false;
+      reopen?.focus();
+    }
+    if (choice === "granted") startAnalytics();
+    else stopAnalytics();
+  });
+
+  if (reopen) {
+    reopen.hidden = false;
+    reopen.addEventListener("click", () => {
+      reopened = true;
+      banner.hidden = false;
+      banner.querySelector("button")?.focus();
+    });
+  }
+
+  const choice = readChoice();
+  if (choice === "granted") startAnalytics();
+  else if (choice === null) banner.hidden = false;
+</script>
+
+<style>
+  /* A card in the bottom-right corner; at 600px and below a sheet along the bottom
+     edge. Every edge it touches clears the safe area. It sits outside the page's
+     query container (.q), so the breakpoint is a media query. */
+  .q-consent {
+    position: fixed;
+    z-index: 10;
+    right: max(var(--s-6), env(safe-area-inset-right));
+    bottom: max(var(--s-6), env(safe-area-inset-bottom));
+    width: var(--consent-w);
+    padding: var(--s-5);
+    border: var(--bw) solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-overlay);
+  }
+
+  @media (max-width: 600px) {
+    .q-consent {
+      right: max(var(--s-3), env(safe-area-inset-right));
+      bottom: max(var(--s-3), env(safe-area-inset-bottom));
+      left: max(var(--s-3), env(safe-area-inset-left));
+      width: auto;
+    }
+  }
+
+  .q-consent__title {
+    font-family: var(--label-font);
+    font-size: var(--label-size);
+    line-height: var(--label-lh);
+    font-weight: var(--label-wt);
+    letter-spacing: var(--label-ls);
+  }
+
+  .q-consent__text {
+    margin-top: var(--s-2);
+    font-family: var(--small-font);
+    font-size: var(--small-size);
+    line-height: var(--small-lh);
+    font-weight: var(--small-wt);
+    letter-spacing: var(--small-ls);
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+
+  .q-consent__actions {
+    display: flex;
+    gap: var(--s-2);
+    margin-top: var(--s-4);
+  }
+
+  .q-consent__actions .q-btn {
+    flex: 1;
+  }
+</style>

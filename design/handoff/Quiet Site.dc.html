@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiet · Complete set</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<style>
+body{margin:0;background:#1a1a19;}
+</style>
+</helmet>
+<section id="turn-2" style="display:flex; flex-direction:column; gap:120px; padding:80px; background:#1a1a19; width:max-content; min-width:100%; box-sizing:border-box; font-family:system-ui,-apple-system,sans-serif; color:#e9e5dc;">
+  <div style="display:flex; flex-direction:column; gap:12px; max-width:1100px;">
+    <h1 style="margin:0; font-size:40px; font-weight:600; letter-spacing:-.02em;">tarik.caykara.com · Quiet, the complete set</h1>
+    <p style="margin:0; font-size:18px; line-height:1.5; color:#a29e96;">Direction A with the changes from this chat, consolidated into one design system (2·0). Every page below is built only from its tokens and components, which live in one stylesheet, quiet.css, beside these pages. Pages are fluid from 360 to 1440; the dashed line marks the first screen (1440×900, 390×844, 360×800). Grey text and the dashed frame lines on this canvas are presentation only.</p>
+  </div>
+  
+  <div id="2·0" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2·0</span><h2 style="margin:0; font-size:32px; font-weight:600;">Design system</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">Tokens, type scale, spacing, grid, radii and borders, motion, layout sizes, the component inventory, the project panel and the fonts.</p>
+      <ul style="margin:4px 0 0; padding-left:20px; font-size:15px; line-height:1.55; color:#a29e96; display:flex; flex-direction:column; gap:4px;"><li>Colour has semantic names only (bg, surface, surface-raised, text, text-bright, muted, on-fill, border, border-strong, tint, focus) and no accent.</li><li>The same tokens are written out in quiet.css for the Astro build.</li></ul>
+    </div>
+    <div style="width:1440px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietSystem" hint-size="1440px,9000px" style="display:block; width:1440px"></dc-import></div>
+  </div>
+  
+  <div id="2a" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2a</span><h2 style="margin:0; font-size:32px; font-weight:600;">Home</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">Every section from the site map, in order, with your content word for word.</p>
+      <ul style="margin:4px 0 0; padding-left:20px; font-size:15px; line-height:1.55; color:#a29e96; display:flex; flex-direction:column; gap:4px;"><li>Header: the wordmark on the left and the nav on the right; at 600px and below the four links move to their own row.</li><li>Hero: the headline in two tones; the Profile panel in grid columns 8–12, bottom-aligned with the headline, moving under the intro at 860px and below.</li><li>Selected work: inset project panels (3:2) holding the placeholder drawings, sticky beside the text above 860px.</li><li>Latest notes is dashed: it and the Notes link stay hidden until the first note.</li></ul>
+    </div>
+    <div style="display:flex; gap:80px; align-items:flex-start;"><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Desktop · 1440</span><div style="position:relative; width:1440px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietHome" hint-size="1440px,6900px" style="display:block; width:1440px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:900px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Mobile · 390</span><div style="position:relative; width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietHome" hint-size="390px,11000px" style="display:block; width:390px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:844px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Smallest · 360</span><div style="position:relative; width:360px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietHome" hint-size="360px,11600px" style="display:block; width:360px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:800px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div></div>
+  </div>
+  
+  <div id="2b" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2b</span><h2 style="margin:0; font-size:32px; font-weight:600;">Notes index</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">Title, lead and one row per note: date, title and one-line description.</p>
+      <ul style="margin:4px 0 0; padding-left:20px; font-size:15px; line-height:1.55; color:#a29e96; display:flex; flex-direction:column; gap:4px;"><li>Rows sit on the 12-column grid (date in columns 1–3). Dates are marked gaps; the first row is the sample note.</li></ul>
+    </div>
+    <div style="display:flex; gap:80px; align-items:flex-start;"><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Desktop · 1440</span><div style="position:relative; width:1440px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietNotes" hint-size="1440px,1100px" style="display:block; width:1440px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:900px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Mobile · 390</span><div style="position:relative; width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietNotes" hint-size="390px,1300px" style="display:block; width:390px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:844px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Smallest · 360</span><div style="position:relative; width:360px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietNotes" hint-size="360px,1350px" style="display:block; width:360px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:800px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div></div>
+  </div>
+  
+  <div id="2c" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2c</span><h2 style="margin:0; font-size:32px; font-weight:600;">Note article</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">Long-form reading layout with the sample of about 1,200 words.</p>
+      <ul style="margin:4px 0 0; padding-left:20px; font-size:15px; line-height:1.55; color:#a29e96; display:flex; flex-direction:column; gap:4px;"><li>Sample text written for layout from facts in your content; it is tagged so it doesn’t ship by mistake.</li><li>Includes h2 and h3 headings, a table, a code block, a blockquote, a footnote and inline links. Code and the table scroll inside their own box on small screens.</li></ul>
+    </div>
+    <div style="display:flex; gap:80px; align-items:flex-start;"><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Desktop · 1440</span><div style="position:relative; width:1440px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietNote" hint-size="1440px,4300px" style="display:block; width:1440px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:900px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Mobile · 390</span><div style="position:relative; width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietNote" hint-size="390px,7000px" style="display:block; width:390px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:844px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Smallest · 360</span><div style="position:relative; width:360px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietNote" hint-size="360px,7400px" style="display:block; width:360px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:800px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div></div>
+  </div>
+  
+  <div id="2d" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2d</span><h2 style="margin:0; font-size:32px; font-weight:600;">404</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">Your heading and line, with “the home page” linked in place.</p>
+      
+    </div>
+    <div style="display:flex; gap:80px; align-items:flex-start;"><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Desktop · 1440</span><div style="position:relative; width:1440px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="Quiet404" hint-size="1440px,900px" style="display:block; width:1440px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:900px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Mobile · 390</span><div style="position:relative; width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="Quiet404" hint-size="390px,900px" style="display:block; width:390px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:844px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Smallest · 360</span><div style="position:relative; width:360px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="Quiet404" hint-size="360px,900px" style="display:block; width:360px"></dc-import><div style="position:absolute; left:-24px; right:-24px; top:800px; border-top:1px dashed #ff7a45; pointer-events:none;"></div></div></div></div>
+  </div>
+  
+  <div id="2e" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2e</span><h2 style="margin:0; font-size:32px; font-weight:600;">States</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">Hover and keyboard focus, card hover, the analytics consent banner and mobile navigation.</p>
+      <ul style="margin:4px 0 0; padding-left:20px; font-size:15px; line-height:1.55; color:#a29e96; display:flex; flex-direction:column; gap:4px;"><li>Consent: a card at the bottom right on desktop and a bottom sheet on a phone, with Accept and Decline at equal weight. “Cookie settings” in the footer reopens it.</li><li>Mobile navigation: all four links fit on one row at 360 and above, so there is no disclosure menu. Every link is at least 44px tall.</li></ul>
+    </div>
+    
+    <div style="display:flex; flex-direction:column; gap:20px;"><h3 style="margin:0; font-size:22px; font-weight:600;">Links, buttons and cards</h3><div style="display:flex; gap:80px; align-items:flex-start;"><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Desktop · 1440</span><div style="position:relative; width:1440px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietStates" hint-size="1440px,1900px" style="display:block; width:1440px"></dc-import></div></div><div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Mobile · 390</span><div style="position:relative; width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietStates" hint-size="390px,3700px" style="display:block; width:390px"></dc-import></div></div></div></div>
+    <div style="display:flex; flex-direction:column; gap:20px;"><h3 style="margin:0; font-size:22px; font-weight:600;">Analytics consent, first visit</h3>
+      <div style="display:flex; gap:80px; align-items:flex-start;">
+        <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Desktop · 1440 × 900</span><div style="position:relative; width:1440px; height:900px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietHome" hint-size="1440px,900px" style="display:block; width:1440px"></dc-import><div style="position:absolute; right:24px; bottom:24px; width:380px;"><dc-import name="QuietConsent" hint-size="380px,170px" style="display:block; width:380px"></dc-import></div></div></div>
+        <div style="display:flex; flex-direction:column; gap:12px;"><span style="font-size:14px; color:#a29e96;">Mobile · 390 × 844</span><div style="position:relative; width:390px; height:844px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietHome" hint-size="390px,844px" style="display:block; width:390px"></dc-import><div style="position:absolute; left:12px; bottom:12px; width:366px;"><dc-import name="QuietConsent" hint-size="366px,170px" style="display:block; width:366px"></dc-import></div></div></div>
+      </div></div>
+    <div style="display:flex; flex-direction:column; gap:20px;"><h3 style="margin:0; font-size:22px; font-weight:600;">Mobile navigation · 390</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:48px; align-items:flex-start;">
+        <div style="display:flex; flex-direction:column; gap:12px; width:390px;"><span style="font-size:14px; color:#a29e96;">Notes published: all four links</span><div style="width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45); background:#0a0a09; padding-bottom:24px;"><dc-import name="QuietHeader" page="home" notes="{{ true }}" hint-size="390px,124px" style="display:block; width:390px"></dc-import></div></div>
+        <div style="display:flex; flex-direction:column; gap:12px; width:390px;"><span style="font-size:14px; color:#a29e96;">Before the first note: three links</span><div style="width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45); background:#0a0a09; padding-bottom:24px;"><dc-import name="QuietHeader" page="home" notes="{{ false }}" hint-size="390px,124px" style="display:block; width:390px"></dc-import></div></div>
+        <div style="display:flex; flex-direction:column; gap:12px; width:390px;"><span style="font-size:14px; color:#a29e96;">On a Notes page: Notes is current</span><div style="width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45); background:#0a0a09; padding-bottom:24px;"><dc-import name="QuietHeader" page="notes" notes="{{ true }}" hint-size="390px,124px" style="display:block; width:390px"></dc-import></div></div>
+        <div style="display:flex; flex-direction:column; gap:12px; width:390px;"><span style="font-size:14px; color:#a29e96;">Keyboard focus on Work</span><div style="width:390px; box-shadow:0 30px 80px rgba(0,0,0,.45); background:#0a0a09; padding-bottom:24px;"><dc-import name="QuietHeader" page="home" notes="{{ true }}" focus-link="work" hint-size="390px,124px" style="display:block; width:390px"></dc-import></div></div>
+      </div></div>
+  </div>
+  
+  <div id="2f" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2f</span><h2 style="margin:0; font-size:32px; font-weight:600;">Favicon</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">The TC monogram in --bg and --text, drawn as SVG paths. The monogram is used only here.</p>
+      <ul style="margin:4px 0 0; padding-left:20px; font-size:15px; line-height:1.55; color:#a29e96; display:flex; flex-direction:column; gap:4px;"><li>The file is favicon.svg, beside these pages.</li></ul>
+    </div>
+    <div style="width:1100px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietFavicon" hint-size="1100px,480px" style="display:block; width:1100px"></dc-import></div>
+  </div>
+  
+  <div id="2g" style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; flex-direction:column; gap:10px; max-width:1100px;">
+      <div style="display:flex; align-items:center; gap:14px;"><span style="padding:4px 10px; border-radius:6px; background:#e9e5dc; color:#1a1a19; font-size:16px; font-weight:700;">2g</span><h2 style="margin:0; font-size:32px; font-weight:600;">LinkedIn share card</h2></div>
+      <p style="margin:0; font-size:20px; line-height:1.45;">Open Graph image at 1200 × 630: your name, the role line in the muted grey and the address.</p>
+      <ul style="margin:4px 0 0; padding-left:20px; font-size:15px; line-height:1.55; color:#a29e96; display:flex; flex-direction:column; gap:4px;"><li>Export the frame as PNG for og:image.</li></ul>
+    </div>
+    <div style="width:1200px; box-shadow:0 30px 80px rgba(0,0,0,.45);"><dc-import name="QuietShareCard" hint-size="1200px,630px" style="display:block; width:1200px"></dc-import></div>
+  </div>
+</section>
+</x-dc>
+
+
+</body></html>

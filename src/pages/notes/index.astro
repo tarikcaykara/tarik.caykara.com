@@ -1,0 +1,36 @@
+---
+import NoteList from "../../components/NoteList.astro";
+import { profile } from "../../config/profile";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedNotes } from "../../lib/notes";
+
+const notes = await getPublishedNotes();
+// An empty list is a thin page: kept out of search until the first note.
+---
+
+<BaseLayout
+  title="Notes"
+  description={profile.notesLead}
+  noindex={notes.length === 0}
+>
+  <div class="q-main q-wrap">
+    <h1 class="q-page-title">Notes</h1>
+    <p class="q-page-lead">{profile.notesLead}</p>
+    {notes.length > 0 ? (
+      <NoteList notes={notes} heading="h2" variant="page" />
+    ) : (
+      <p class="empty">No notes yet.</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .q-main > :global(.q-note-list),
+  .empty {
+    margin-top: var(--flow-m);
+  }
+
+  .empty {
+    color: var(--muted);
+  }
+</style>

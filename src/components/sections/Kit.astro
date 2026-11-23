@@ -1,0 +1,81 @@
+---
+import { profile } from "../../config/profile";
+
+const { operations, tools } = profile.kit;
+---
+
+<section id="kit" class="q-section q-wrap" aria-labelledby="kit-title">
+  <div class="q-grid">
+    <h2 id="kit-title" class="q-label q-col-label">
+      Kit
+    </h2>
+    <div class="q-col-content q-kit">
+      <div>
+        <h3 class="q-kit__title">{operations.title}</h3>
+        <dl class="q-rows">
+          {operations.rows.map((row) => (
+            <div>
+              <dt>{row.label}</dt>
+              <dd class="q-muted">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div>
+        <h3 class="q-kit__title">{tools.title}</h3>
+        <ul role="list" class="q-tools">
+          {tools.items.map((item) => (
+            <li class="q-chip q-chip--lg">{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .q-kit {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-9) var(--gap);
+  }
+
+  .q-kit__title {
+    margin-bottom: var(--s-3);
+    font-family: var(--ui-font);
+    font-size: var(--ui-size);
+    line-height: var(--ui-lh);
+    font-weight: var(--ui-wt);
+    letter-spacing: var(--ui-ls);
+    color: var(--muted);
+  }
+
+  .q-rows {
+    border-top: var(--bw) solid var(--border);
+  }
+
+  .q-rows > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: var(--s-4);
+    padding-top: var(--s-4);
+    padding-bottom: var(--s-4);
+    border-bottom: var(--bw) solid var(--border);
+  }
+
+  .q-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    padding: var(--s-4) 0 0;
+    list-style: none;
+    border-top: var(--bw) solid var(--border);
+  }
+
+  @container (max-width: 720px) {
+    .q-kit {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

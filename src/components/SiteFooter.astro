@@ -1,0 +1,86 @@
+---
+import { site } from "../config/site";
+
+// Notes are reached from the header; the RSS feed from the page's
+// <link rel="alternate"> (BaseLayout).
+const links = [
+  { label: "LinkedIn", href: site.links.linkedin },
+  { label: "GitHub", href: site.links.github },
+  { label: "X", href: site.links.x },
+  { label: "Email", href: `mailto:${site.links.email}` },
+];
+// "Cookie settings" stays hidden until ConsentBanner's script wires it up.
+---
+
+<footer class="q-footer">
+  <div class="q-footer__inner q-wrap">
+    <span>
+      {site.name} · {new URL(site.url).host}
+    </span>
+    <nav class="q-footer__nav" aria-label="Footer">
+      {links.map((link) => (
+        <a class="q-footer__link" href={link.href}>
+          {link.label}
+        </a>
+      ))}
+      <button
+        type="button"
+        class="q-footer__link"
+        aria-haspopup="dialog"
+        data-consent-open
+        hidden
+      >
+        Cookie settings
+      </button>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .q-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-2) var(--s-6);
+    padding-top: var(--s-5);
+    padding-bottom: var(--s-7);
+    border-top: var(--bw) solid var(--border);
+    font-family: var(--caption-font);
+    font-size: var(--caption-size);
+    line-height: var(--caption-lh);
+    font-weight: var(--caption-wt);
+    letter-spacing: var(--caption-ls);
+    color: var(--muted);
+  }
+
+  .q-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--s-5);
+  }
+
+  .q-footer__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--control-sm);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--dur-fast) var(--ease);
+  }
+
+  /* display: inline-flex above would override the hidden attribute. */
+  .q-footer__link[hidden] {
+    display: none;
+  }
+
+  .q-footer__link:hover,
+  .q-footer__link:focus-visible {
+    color: var(--text);
+  }
+</style>

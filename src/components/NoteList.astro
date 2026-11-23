@@ -1,0 +1,181 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { isoDay } from "../lib/format";
+
+// Linked notes: date, title and description, newest first. Compact rows (home
+// page, h3 under "Latest notes") keep a fixed date column; page rows (notes
+// index, h2) sit on the 12-column grid.
+interface Props {
+  notes: CollectionEntry<"notes">[];
+  heading: "h2" | "h3";
+  variant: "compact" | "page";
+}
+
+const { notes, heading, variant } = Astro.props;
+const Heading = heading;
+---
+
+<ul role="list" class="q-note-list">
+  {notes.map(({ id, data }) => (
+    <li>
+      <a
+        class:list={["q-note-row", variant === "page" && "q-note-row--page"]}
+        href={`/notes/${id}`}
+      >
+        <time class="q-note-row__date" datetime={isoDay(data.publishedAt)}>
+          {isoDay(data.publishedAt)}
+        </time>
+        <div class="q-note-row__main">
+          <Heading class="q-note-row__title">{data.title}</Heading>
+          <p class="q-note-row__desc">{data.description}</p>
+        </div>
+        <span class="q-note-row__arrow" aria-hidden="true">
+          →
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .q-note-list {
+    padding: 0;
+    list-style: none;
+    border-top: var(--bw) solid var(--border);
+  }
+
+  .q-note-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--date-col) minmax(0, 1fr) var(--s-5);
+    column-gap: var(--s-6);
+    row-gap: var(--s-1);
+    align-items: baseline;
+    margin-left: calc(var(--s-3) * -1);
+    margin-right: calc(var(--s-3) * -1);
+    padding: var(--s-5) var(--s-3);
+    border-radius: var(--r-md);
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color var(--dur-fast) var(--ease);
+  }
+
+  .q-note-row::after {
+    content: "";
+    position: absolute;
+    left: var(--s-3);
+    right: var(--s-3);
+    bottom: 0;
+    border-bottom: var(--bw) solid var(--border);
+  }
+
+  .q-note-row:focus-visible {
+    outline-offset: 0;
+  }
+
+  .q-note-row--page {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+  }
+
+  .q-note-row--page .q-note-row__date {
+    grid-column: span 3;
+  }
+
+  .q-note-row--page .q-note-row__main {
+    grid-column: span 8;
+  }
+
+  .q-note-row--page .q-note-row__arrow {
+    grid-column: span 1;
+    justify-self: end;
+  }
+
+  .q-note-row__date {
+    font-family: var(--small-font);
+    font-size: var(--small-size);
+    line-height: var(--small-lh);
+    font-weight: var(--small-wt);
+    letter-spacing: var(--small-ls);
+    color: var(--muted);
+  }
+
+  .q-note-row__main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-1);
+    min-width: 0;
+  }
+
+  .q-note-row__title {
+    font-family: var(--title-5-font);
+    font-size: var(--title-5-size);
+    line-height: var(--title-5-lh);
+    font-weight: var(--title-5-wt);
+    letter-spacing: var(--title-5-ls);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: var(--bw);
+    text-underline-offset: var(--s-1);
+    transition: text-decoration-color var(--dur-fast) var(--ease);
+  }
+
+  .q-note-row__desc {
+    font-family: var(--ui-font);
+    font-size: var(--ui-size);
+    line-height: var(--ui-lh);
+    font-weight: var(--ui-wt);
+    letter-spacing: var(--ui-ls);
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+
+  .q-note-row__arrow {
+    color: var(--muted);
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      color var(--dur-fast) var(--ease);
+  }
+
+  .q-note-row:hover {
+    background: var(--tint);
+  }
+
+  .q-note-row:hover .q-note-row__title {
+    text-decoration-color: var(--text);
+  }
+
+  .q-note-row:hover .q-note-row__arrow {
+    transform: translateX(var(--nudge));
+    color: var(--text);
+  }
+
+  /* The date moves above the title. */
+  @container (max-width: 600px) {
+    .q-note-row,
+    .q-note-row--page {
+      grid-template-columns: minmax(0, 1fr) var(--s-5);
+    }
+
+    .q-note-row__date,
+    .q-note-row--page .q-note-row__date {
+      grid-column: 1 / -1;
+    }
+
+    .q-note-row--page .q-note-row__main,
+    .q-note-row--page .q-note-row__arrow {
+      grid-column: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .q-note-row__arrow {
+      transition: none;
+    }
+
+    .q-note-row:hover .q-note-row__arrow {
+      transform: none;
+    }
+  }
+</style>

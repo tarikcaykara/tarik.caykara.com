@@ -1,0 +1,217 @@
+/* Rendered markdown in a note (src/pages/notes/[slug].astro). Markdown output
+   can't take scoped styles, so every selector starts with .q-prose. Values come
+   from design/handoff/QuietNote.dc.html; the footnotes (remark-gfm) take the
+   design's .q-footnotes rules. */
+
+.q-prose {
+  max-width: var(--measure);
+  margin-top: var(--flow-m);
+  font-family: var(--body-lg-font);
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-lh);
+  font-weight: var(--body-lg-wt);
+  letter-spacing: var(--body-lg-ls);
+}
+
+.q-prose p {
+  margin-bottom: var(--s-5);
+  text-wrap: pretty;
+}
+
+.q-prose h2 {
+  margin-top: var(--s-10);
+  margin-bottom: var(--s-3);
+  font-family: var(--title-3-font);
+  font-size: var(--title-3-size);
+  line-height: var(--title-3-lh);
+  font-weight: var(--title-3-wt);
+  letter-spacing: var(--title-3-ls);
+  text-wrap: balance;
+}
+
+.q-prose h3,
+.q-prose h4 {
+  margin-top: var(--s-8);
+  margin-bottom: var(--s-2);
+  font-family: var(--title-4-font);
+  font-size: var(--title-4-size);
+  line-height: var(--title-4-lh);
+  font-weight: var(--title-4-wt);
+  letter-spacing: var(--title-4-ls);
+}
+
+.q-prose a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-decoration-thickness: var(--bw);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color var(--dur-fast) var(--ease);
+}
+
+.q-prose a:hover {
+  text-decoration-color: var(--text);
+}
+
+.q-prose ul,
+.q-prose ol {
+  margin-bottom: var(--s-5);
+  padding-left: var(--s-5);
+}
+
+.q-prose li {
+  margin-top: var(--s-2);
+  margin-bottom: var(--s-2);
+  text-wrap: pretty;
+}
+
+.q-prose li::marker {
+  color: var(--muted);
+}
+
+.q-prose strong {
+  font-weight: var(--wt-semibold);
+}
+
+.q-prose code {
+  padding: 0 var(--s-1);
+  border-radius: var(--r-xs);
+  background: var(--tint);
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+}
+
+/* Code blocks and tables scroll inside their own box at narrow widths. */
+.q-prose pre {
+  margin-top: var(--s-7);
+  margin-bottom: var(--s-7);
+  padding: var(--s-5) var(--s-6);
+  overflow-x: auto;
+  border: var(--bw) solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  font-family: var(--code-font);
+  font-size: var(--code-size);
+  line-height: var(--code-lh);
+  font-weight: var(--code-wt);
+  letter-spacing: var(--code-ls);
+}
+
+.q-prose pre code {
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: var(--text);
+  white-space: pre;
+}
+
+.q-prose blockquote {
+  margin-top: var(--s-7);
+  margin-bottom: var(--s-7);
+  padding-left: var(--s-6);
+  border-left: var(--bw) solid var(--border-strong);
+  font-family: var(--quote-font);
+  font-size: var(--quote-size);
+  line-height: var(--quote-lh);
+  font-weight: var(--quote-wt);
+  letter-spacing: var(--quote-ls);
+  text-wrap: pretty;
+}
+
+.q-prose blockquote p {
+  margin: 0;
+}
+
+/* Every table is wrapped in .q-table-wrap at build time (astro.config.mjs). */
+.q-prose .q-table-wrap {
+  margin-top: var(--s-7);
+  margin-bottom: var(--s-7);
+  overflow-x: auto;
+}
+
+.q-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  font-weight: var(--body-wt);
+  letter-spacing: var(--body-ls);
+  font-variant-numeric: tabular-nums;
+}
+
+.q-prose th {
+  padding: 0 var(--s-4) var(--s-3) 0;
+  border-bottom: var(--bw) solid var(--border-strong);
+  font-family: var(--small-strong-font);
+  font-size: var(--small-strong-size);
+  line-height: var(--small-strong-lh);
+  font-weight: var(--small-strong-wt);
+  letter-spacing: var(--small-strong-ls);
+  color: var(--muted);
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.q-prose td {
+  padding: var(--s-3) var(--s-4) var(--s-3) 0;
+  border-bottom: var(--bw) solid var(--border);
+}
+
+.q-prose hr {
+  height: var(--bw);
+  margin: var(--s-10) 0;
+  border: 0;
+  background: var(--border);
+}
+
+.q-prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.q-prose sup {
+  line-height: 0;
+}
+
+.q-prose sup a {
+  padding: 0 var(--s-1);
+  font-family: var(--caption-strong-font);
+  font-size: var(--caption-strong-size);
+  line-height: var(--caption-strong-lh);
+  font-weight: var(--caption-strong-wt);
+  letter-spacing: var(--caption-strong-ls);
+  text-decoration: none;
+}
+
+/* Footnotes (remark-gfm puts them at the end of the content). */
+
+.q-prose .footnotes {
+  margin-top: var(--s-10);
+  padding-top: var(--s-5);
+  border-top: var(--bw) solid var(--border);
+  font-family: var(--ui-font);
+  font-size: var(--ui-size);
+  line-height: var(--ui-lh);
+  font-weight: var(--ui-wt);
+  letter-spacing: var(--ui-ls);
+  color: var(--muted);
+}
+
+.q-prose .footnotes h2 {
+  margin-top: 0;
+  margin-bottom: var(--s-3);
+  font-family: var(--small-strong-font);
+  font-size: var(--small-strong-size);
+  line-height: var(--small-strong-lh);
+  font-weight: var(--small-strong-wt);
+  letter-spacing: var(--small-strong-ls);
+}
+
+.q-prose .footnotes ol {
+  margin-bottom: 0;
+}
+
+.q-prose .footnotes p {
+  margin: 0;
+}

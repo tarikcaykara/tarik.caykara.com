@@ -1,0 +1,7 @@
+# Turkish docs keep their own wrapping; design/ holds the Claude Design export as-is.
+docs/
+/*.md
+design/
+package-lock.json
+# Search Console verification file: Google checks its exact content.
+public/google*.html

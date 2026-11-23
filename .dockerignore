@@ -1,0 +1,13 @@
+# Only what `npm ci && npm run build` needs goes into the build context.
+.git
+.github
+.astro
+.claude
+.design
+.wrangler
+design
+docs
+dist
+node_modules
+**/.DS_Store
+.env

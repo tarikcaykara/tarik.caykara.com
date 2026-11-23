@@ -1,0 +1,57 @@
+# Monthly version-update PRs (policy: "Bağımlılıklar" in CLAUDE.md).
+# - A release is proposed only after a 7-day cooldown; security updates do not wait.
+# - Minor and patch updates come in groups: `site` (production dependencies, which can change
+#   dist/ and then need a patch version bump), `tooling` (dev dependencies, which do not) and
+#   `images` (the Dockerfile base images, which always need a patch bump). Majors come one by one.
+# - Monthly rather than weekly: every update that changes dist/ or the image needs a version
+#   bump, a tag and a redeploy on the host.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: build
+      include: scope
+    groups:
+      site:
+        dependency-type: production
+        update-types: [minor, patch]
+      tooling:
+        dependency-type: development
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      actions:
+        update-types: [minor, patch]
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: build
+      include: scope
+    ignore:
+      # package.json pins Node 24 (engines); a new Node major is a deliberate change.
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+      # nginx 1.<even> is the stable branch, 1.<odd> mainline: only stable patch releases
+      # come in, and moving to the next stable branch is a deliberate change.
+      - dependency-name: nginxinc/nginx-unprivileged
+        update-types: [version-update:semver-minor]
+    groups:
+      images:
+        update-types: [minor, patch]

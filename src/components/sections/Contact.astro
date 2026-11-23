@@ -1,0 +1,100 @@
+---
+import { profile } from "../../config/profile";
+import { site } from "../../config/site";
+---
+
+<section
+  id="contact"
+  class="q-section q-section--last q-wrap"
+  aria-labelledby="contact-title"
+>
+  <div class="q-grid">
+    <h2 id="contact-title" class="q-label q-col-label">
+      Contact
+    </h2>
+    <p class="q-contact-line q-col-content">{profile.contactLine}</p>
+  </div>
+  <a class="q-cta" href={`mailto:${site.links.email}`}>
+    {site.links.email}
+    <span class="q-cta__arrow" aria-hidden="true">
+      →
+    </span>
+  </a>
+  <div class="q-contact-links">
+    <a class="q-link" href={site.links.linkedin}>
+      LinkedIn <span aria-hidden="true">↗</span>
+    </a>
+    <a class="q-link" href={site.links.github}>
+      GitHub <span aria-hidden="true">↗</span>
+    </a>
+    <a class="q-link" href={site.links.x}>
+      X <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .q-contact-line {
+    font-family: var(--statement-font);
+    font-size: var(--statement-size);
+    line-height: var(--statement-lh);
+    font-weight: var(--statement-wt);
+    letter-spacing: var(--statement-ls);
+    text-wrap: balance;
+  }
+
+  .q-cta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-6);
+    margin-top: var(--flow-m);
+    padding-top: var(--s-6);
+    padding-bottom: var(--s-6);
+    border-top: var(--bw) solid var(--border);
+    border-bottom: var(--bw) solid var(--border);
+    font-family: var(--mega-font);
+    font-size: var(--mega-size);
+    line-height: var(--mega-lh);
+    font-weight: var(--mega-wt);
+    letter-spacing: var(--mega-ls);
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease);
+  }
+
+  .q-cta__arrow {
+    font-weight: var(--wt-regular);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .q-cta:hover {
+    color: var(--text-bright);
+  }
+
+  .q-cta:hover .q-cta__arrow {
+    transform: translateX(var(--nudge-lg));
+  }
+
+  .q-contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-7);
+    margin-top: var(--s-7);
+    font-family: var(--body-lg-font);
+    font-size: var(--body-lg-size);
+    line-height: var(--body-lg-lh);
+    font-weight: var(--body-lg-wt);
+    letter-spacing: var(--body-lg-ls);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .q-cta__arrow {
+      transition: none;
+    }
+
+    .q-cta:hover .q-cta__arrow {
+      transform: none;
+    }
+  }
+</style>

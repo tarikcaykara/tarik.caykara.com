@@ -1,0 +1,193 @@
+---
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+function linkLabel(link: string): string {
+  const { hostname } = new URL(link);
+  return hostname === "github.com" ? "GitHub" : hostname;
+}
+
+// "A · B · C": a no-break space before each separator keeps it on the line of the
+// item before it, so a wrapped line never starts with "·".
+function keepSeparators(list: string): string {
+  return list.replaceAll(" · ", "\u00a0· ");
+}
+---
+
+<section id="work" class="q-section q-wrap" aria-labelledby="work-title">
+  <div class="q-grid q-work__head">
+    <h2 id="work-title" class="q-label q-col-label">
+      Selected work
+    </h2>
+  </div>
+  {projects.map(({ id, data }) => (
+    <article class="q-grid q-project" aria-labelledby={`work-${id}`}>
+      <div class="q-project__lead">
+        <p class="q-kicker">{data.kind}</p>
+        <h3 id={`work-${id}`} class="q-project__title">
+          {data.name}
+        </h3>
+        {data.metrics && (
+          <div class="q-metrics">
+            {data.metrics.map((metric) => (
+              <p class="q-metric">
+                <span class="q-metric__value">{metric.value}</span>
+                <span class="q-metric__label">
+                  {keepSeparators(metric.label)}
+                </span>
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="q-project__body">
+        <dl class="q-facts">
+          <div>
+            <dt>Problem</dt>
+            <dd>{data.problem}</dd>
+          </div>
+          <div>
+            <dt>Built</dt>
+            <dd>{data.built}</dd>
+          </div>
+          <div>
+            <dt>Outcome</dt>
+            <dd>{data.outcome}</dd>
+          </div>
+        </dl>
+        <ul role="list" class="q-chips" aria-label="Stack">
+          {data.stack.map((item) => (
+            <li class="q-chip">{item}</li>
+          ))}
+        </ul>
+        {data.link && (
+          <a class="q-btn" href={data.link}>
+            <span>
+              {linkLabel(data.link)} <span aria-hidden="true">↗</span>
+            </span>
+          </a>
+        )}
+      </div>
+    </article>
+  ))}
+</section>
+
+<style>
+  .q-work__head {
+    margin-bottom: var(--flow-s);
+  }
+
+  .q-project {
+    align-items: start;
+    row-gap: var(--s-8);
+    padding-top: var(--flow-m);
+    padding-bottom: var(--flow-m);
+    border-top: var(--bw) solid var(--border);
+  }
+
+  .q-project:last-child {
+    padding-bottom: 0;
+  }
+
+  .q-project__lead {
+    grid-column: span 5;
+  }
+
+  .q-project__body {
+    grid-column: span 7;
+  }
+
+  .q-project__body > .q-btn {
+    margin-top: var(--s-7);
+  }
+
+  .q-kicker {
+    margin-bottom: var(--s-3);
+    font-family: var(--small-font);
+    font-size: var(--small-size);
+    line-height: var(--small-lh);
+    font-weight: var(--small-wt);
+    letter-spacing: var(--small-ls);
+    color: var(--muted);
+  }
+
+  .q-project__title {
+    font-family: var(--title-2-font);
+    font-size: var(--title-2-size);
+    line-height: var(--title-2-lh);
+    font-weight: var(--title-2-wt);
+    letter-spacing: var(--title-2-ls);
+    text-wrap: balance;
+  }
+
+  .q-metrics {
+    margin-top: var(--s-7);
+    border-top: var(--bw) solid var(--border);
+  }
+
+  .q-metric {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    padding-top: var(--s-4);
+    padding-bottom: var(--s-4);
+    border-bottom: var(--bw) solid var(--border);
+  }
+
+  .q-metric__value {
+    font-family: var(--metric-font);
+    font-size: var(--metric-size);
+    line-height: var(--metric-lh);
+    font-weight: var(--metric-wt);
+    letter-spacing: var(--metric-ls);
+  }
+
+  .q-metric__label {
+    font-family: var(--small-font);
+    font-size: var(--small-size);
+    line-height: var(--small-lh);
+    font-weight: var(--small-wt);
+    letter-spacing: var(--small-ls);
+    color: var(--muted);
+  }
+
+  .q-facts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+  }
+
+  .q-facts dt {
+    margin-bottom: var(--s-2);
+    font-family: var(--caption-strong-font);
+    font-size: var(--caption-strong-size);
+    line-height: var(--caption-strong-lh);
+    font-weight: var(--caption-strong-wt);
+    letter-spacing: var(--caption-strong-ls);
+    color: var(--muted);
+  }
+
+  .q-facts dd {
+    text-wrap: pretty;
+  }
+
+  .q-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin-top: var(--s-7);
+    padding: 0;
+    list-style: none;
+  }
+
+  /* One column: the lead and body stack. */
+  @container (max-width: 860px) {
+    .q-project__lead,
+    .q-project__body {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

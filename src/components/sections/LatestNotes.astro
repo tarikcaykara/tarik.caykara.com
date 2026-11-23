@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { profile } from "../../config/profile";
+import NoteList from "../NoteList.astro";
+
+interface Props {
+  // Newest first, at least one; the home page skips the section otherwise.
+  notes: CollectionEntry<"notes">[];
+}
+
+const { notes } = Astro.props;
+---
+
+<section id="notes" class="q-section q-wrap" aria-labelledby="notes-title">
+  <div class="q-grid">
+    <h2 id="notes-title" class="q-label q-col-label">
+      Latest notes
+    </h2>
+    <div class="q-col-content">
+      <p class="q-lead q-note-list__intro">{profile.notesLead}</p>
+      <NoteList notes={notes.slice(0, 3)} heading="h3" variant="compact" />
+      <a class="q-link q-note-list__more" href="/notes">
+        All notes <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .q-note-list__intro {
+    margin-bottom: var(--s-6);
+  }
+
+  .q-note-list__more {
+    display: inline-block;
+    margin-top: var(--s-6);
+    font-family: var(--ui-font);
+    font-size: var(--ui-size);
+    line-height: var(--ui-lh);
+    font-weight: var(--ui-wt);
+    letter-spacing: var(--ui-ls);
+  }
+</style>

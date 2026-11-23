@@ -1,0 +1,26 @@
+# Runs the site image (Dockerfile). cloudflared on the host is the only way in:
+# its tunnel ingress points at http://127.0.0.1:8080.
+name: tarik-caykara-com
+services:
+  site:
+    build: .
+    # SITE_VERSION (the package.json version) comes from .env on the host, which keeps
+    # the previous image too: setting it back to the previous version is the rollback.
+    image: tarik-caykara-com:${SITE_VERSION:-local}
+    restart: unless-stopped
+    ports:
+      # Loopback only. PORT in .env moves the host side if 8080 is taken.
+      - "127.0.0.1:${PORT:-8080}:8080"
+    # nginx writes only its pid and temp files, all under /tmp.
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"

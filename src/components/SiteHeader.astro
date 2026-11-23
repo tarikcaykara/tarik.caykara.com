@@ -1,0 +1,107 @@
+---
+import { site } from "../config/site";
+import { getPublishedNotes } from "../lib/notes";
+
+// The Notes link only appears once there is a published note.
+const hasNotes = (await getPublishedNotes()).length > 0;
+const path = Astro.url.pathname.replace(/(\.html)?\/?$/, "");
+// The notes index is the current page; a note is inside the current section.
+const notesCurrent: "page" | "true" | undefined =
+  path === "/notes" ? "page" : path.startsWith("/notes/") ? "true" : undefined;
+const links: { label: string; href: string; current?: "page" | "true" }[] = [
+  { label: "Experience", href: "/#experience" },
+  { label: "Work", href: "/#work" },
+  ...(hasNotes
+    ? [{ label: "Notes", href: "/notes", current: notesCurrent }]
+    : []),
+  { label: "Contact", href: "/#contact" },
+];
+---
+
+<header class="q-header">
+  <div class="q-header__inner q-wrap">
+    <a class="q-wordmark" href="/">
+      {site.name}
+    </a>
+    <nav class="q-nav" aria-label="Main">
+      {links.map((link) => (
+        <a class="q-nav__link" href={link.href} aria-current={link.current}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .q-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-7);
+    padding-top: var(--s-6);
+    padding-bottom: var(--s-6);
+  }
+
+  .q-wordmark {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--control);
+    font-family: var(--wordmark-font);
+    font-size: var(--wordmark-size);
+    line-height: var(--wordmark-lh);
+    font-weight: var(--wordmark-wt);
+    letter-spacing: var(--wordmark-ls);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .q-nav {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--s-7);
+  }
+
+  .q-nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--control);
+    font-family: var(--ui-font);
+    font-size: var(--ui-size);
+    line-height: var(--ui-lh);
+    font-weight: var(--ui-wt);
+    letter-spacing: var(--ui-ls);
+    color: var(--muted);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease);
+  }
+
+  .q-nav__link:hover,
+  .q-nav__link:focus-visible,
+  .q-nav__link[aria-current] {
+    color: var(--text);
+  }
+
+  .q-nav__link[aria-current] {
+    text-decoration: underline;
+    text-decoration-thickness: var(--bw);
+    text-underline-offset: var(--s-2);
+  }
+
+  /* The nav moves to its own row under the wordmark. */
+  @container (max-width: 600px) {
+    .q-header__inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--s-1);
+      padding-top: var(--s-4);
+      padding-bottom: 0;
+    }
+
+    .q-nav {
+      column-gap: var(--s-6);
+      border-top: var(--bw) solid var(--border);
+    }
+  }
+</style>

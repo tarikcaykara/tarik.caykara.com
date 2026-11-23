@@ -1,0 +1,116 @@
+---
+import { profile } from "../../config/profile";
+import { getRoles } from "../../lib/experience";
+import { formatPeriod } from "../../lib/format";
+
+const roles = await getRoles();
+// Under the label: from the first role's start to the latest role's end.
+const latest = roles[0];
+const first = roles.at(-1);
+const period =
+  latest && first ? formatPeriod(first.data.start, latest.data.end) : null;
+---
+
+<section
+  id="experience"
+  class="q-section q-wrap"
+  aria-labelledby="experience-title"
+>
+  <div class="q-grid">
+    <div class="q-col-label">
+      <h2 id="experience-title" class="q-label">
+        Experience
+      </h2>
+      {period && <p class="q-label__sub">{period}</p>}
+    </div>
+    <div class="q-col-content">
+      {roles.map(({ data }) => (
+        <div class="q-role">
+          <h3 class="q-role__title">{data.role}</h3>
+          <p class="q-role__org">{data.org}</p>
+          <p class="q-role__summary">{data.summary}</p>
+          <ol role="list" class="q-index-list">
+            {data.highlights.map((highlight, i) => (
+              <li>
+                <span class="q-index-list__n" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+      <p class="q-role__earlier">{profile.earlier}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .q-role + .q-role {
+    margin-top: var(--flow-m);
+  }
+
+  .q-role__title {
+    font-family: var(--title-2-font);
+    font-size: var(--title-2-size);
+    line-height: var(--title-2-lh);
+    font-weight: var(--title-2-wt);
+    letter-spacing: var(--title-2-ls);
+    text-wrap: balance;
+  }
+
+  .q-role__org {
+    margin-top: var(--s-2);
+    color: var(--muted);
+  }
+
+  .q-role__summary {
+    max-width: var(--measure-lead);
+    margin-top: var(--s-6);
+    font-family: var(--lead-font);
+    font-size: var(--lead-size);
+    line-height: var(--lead-lh);
+    font-weight: var(--lead-wt);
+    letter-spacing: var(--lead-ls);
+    text-wrap: pretty;
+  }
+
+  .q-index-list {
+    margin-top: var(--s-8);
+    padding: 0;
+    list-style: none;
+    border-top: var(--bw) solid var(--border);
+  }
+
+  .q-index-list li {
+    display: grid;
+    grid-template-columns: var(--index-col) minmax(0, 1fr);
+    gap: var(--s-3);
+    align-items: baseline;
+    padding-top: var(--s-5);
+    padding-bottom: var(--s-5);
+    border-bottom: var(--bw) solid var(--border);
+    text-wrap: pretty;
+  }
+
+  .q-index-list__n {
+    font-family: var(--small-font);
+    font-size: var(--small-size);
+    line-height: var(--small-lh);
+    font-weight: var(--small-wt);
+    letter-spacing: var(--small-ls);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .q-role__earlier {
+    margin-top: var(--s-7);
+    font-family: var(--ui-font);
+    font-size: var(--ui-size);
+    line-height: var(--ui-lh);
+    font-weight: var(--ui-wt);
+    letter-spacing: var(--ui-ls);
+    color: var(--muted);
+  }
+</style>

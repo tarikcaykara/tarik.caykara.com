@@ -1,0 +1,141 @@
+---
+import { profile } from "../../config/profile";
+import { site } from "../../config/site";
+import { getRoles } from "../../lib/experience";
+import { formatPeriod } from "../../lib/format";
+
+const [latest] = await getRoles();
+const [headline, headlineRest] = profile.headline;
+const mailto = `mailto:${site.links.email}`;
+---
+
+<section class="q-hero q-wrap" aria-labelledby="hero-title">
+  <div class="q-grid">
+    <h1 id="hero-title" class="q-hero__title">
+      {headline} <span class="q-muted">{headlineRest}</span>
+    </h1>
+    <dl class="q-profile q-hero__profile">
+      <div class="q-profile__row">
+        <dt>Role</dt>
+        <dd>{profile.role}</dd>
+      </div>
+      {latest && (
+        <>
+          <div class="q-profile__row">
+            <dt>
+              {latest.data.end === "present" ? "Current role" : "Last role"}
+            </dt>
+            <dd>
+              {latest.data.role} · {latest.data.org}
+            </dd>
+          </div>
+          <div class="q-profile__row">
+            <dt>Period</dt>
+            <dd>{formatPeriod(latest.data.start, latest.data.end)}</dd>
+          </div>
+        </>
+      )}
+      <div class="q-profile__row">
+        <dt>Chains</dt>
+        <dd>{profile.chains.join(" · ")}</dd>
+      </div>
+      <div class="q-profile__row">
+        <dt>Contact</dt>
+        <dd>
+          <a class="q-link" href={mailto}>
+            {site.links.email}
+          </a>
+        </dd>
+      </div>
+    </dl>
+    <div class="q-hero__intro">
+      <p class="q-lead">{profile.intro}</p>
+      <div class="q-actions">
+        <a class="q-btn q-btn--primary" href={mailto}>
+          {site.links.email}
+        </a>
+        <a class="q-btn" href={site.links.linkedin}>
+          <span>
+            LinkedIn <span aria-hidden="true">↗</span>
+          </span>
+        </a>
+        <a class="q-btn" href={site.links.github}>
+          <span>
+            GitHub <span aria-hidden="true">↗</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .q-hero {
+    padding-top: var(--flow-s);
+    padding-bottom: var(--flow-l);
+  }
+
+  .q-hero .q-grid {
+    row-gap: var(--flow-s);
+  }
+
+  .q-hero__title {
+    grid-column: span 7;
+    font-family: var(--display-font);
+    font-size: var(--display-size);
+    line-height: var(--display-lh);
+    font-weight: var(--display-wt);
+    letter-spacing: var(--display-ls);
+    text-wrap: balance;
+  }
+
+  .q-hero__profile {
+    grid-column: span 5;
+    align-self: end;
+    justify-self: end;
+    width: 100%;
+    max-width: var(--profile-max);
+  }
+
+  .q-hero__intro {
+    grid-column: span 7;
+    max-width: var(--measure-lead);
+  }
+
+  .q-profile {
+    border-top: var(--bw) solid var(--border);
+    font-family: var(--small-font);
+    font-size: var(--small-size);
+    line-height: var(--small-lh);
+    font-weight: var(--small-wt);
+    letter-spacing: var(--small-ls);
+  }
+
+  .q-profile__row {
+    display: grid;
+    grid-template-columns: var(--profile-key) minmax(0, 1fr);
+    gap: var(--s-4);
+    padding-top: var(--s-3);
+    padding-bottom: var(--s-3);
+    border-bottom: var(--bw) solid var(--border);
+  }
+
+  .q-profile dt {
+    color: var(--muted);
+  }
+
+  /* One column; the profile moves under the intro and its buttons. */
+  @container (max-width: 860px) {
+    .q-hero__title,
+    .q-hero__profile,
+    .q-hero__intro {
+      grid-column: 1 / -1;
+    }
+
+    .q-hero__profile {
+      order: 3;
+      justify-self: stretch;
+      max-width: none;
+    }
+  }
+</style>

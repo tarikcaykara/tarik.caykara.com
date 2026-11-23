@@ -1,0 +1,151 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render, type CollectionEntry } from "astro:content";
+import { site } from "../../config/site";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { isoDay } from "../../lib/format";
+import { getPublishedNotes } from "../../lib/notes";
+import "../../styles/prose.css";
+
+export const getStaticPaths = (async () =>
+  (await getPublishedNotes()).map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  entry: CollectionEntry<"notes">;
+}
+
+const { entry } = Astro.props;
+const { title, description, publishedAt, updatedAt } = entry.data;
+const { Content } = await render(entry);
+const url = new URL(`/notes/${entry.id}`, site.url).href;
+const posting = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description,
+  datePublished: publishedAt.toISOString(),
+  dateModified: (updatedAt ?? publishedAt).toISOString(),
+  author: { "@type": "Person", name: site.name, url: site.url },
+  url,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={[posting]}
+  article={{ publishedAt, updatedAt }}
+>
+  <article class="q-article q-wrap">
+    <div class="q-grid">
+      <aside class="q-article__meta">
+        <a class="q-link" href="/notes">
+          <span aria-hidden="true">←</span> Notes
+        </a>
+        <time datetime={isoDay(publishedAt)}>{isoDay(publishedAt)}</time>
+        {updatedAt && (
+          <span>
+            Updated{" "}
+            <time datetime={isoDay(updatedAt)}>{isoDay(updatedAt)}</time>
+          </span>
+        )}
+      </aside>
+      <div class="q-article__body">
+        <h1 class="q-article__title">{title}</h1>
+        <p class="q-article__dek">{description}</p>
+        <div class="q-prose">
+          <Content />
+        </div>
+        <div class="q-article__end">
+          <a class="q-btn" href="/notes">
+            <span>
+              <span aria-hidden="true">←</span> All notes
+            </span>
+          </a>
+          <a class="q-btn" href={`mailto:${site.links.email}`}>
+            {site.links.email}
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .q-article {
+    padding-top: var(--flow-s);
+    padding-bottom: var(--flow-l);
+  }
+
+  /* Back link and dates stay beside the text while it scrolls. */
+  .q-article__meta {
+    grid-column: span 3;
+    position: sticky;
+    top: var(--s-6);
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-3);
+    font-family: var(--small-font);
+    font-size: var(--small-size);
+    line-height: var(--small-lh);
+    font-weight: var(--small-wt);
+    letter-spacing: var(--small-ls);
+    color: var(--muted);
+  }
+
+  .q-article__body {
+    grid-column: span 9;
+    min-width: 0;
+  }
+
+  .q-article__title {
+    max-width: var(--measure);
+    font-family: var(--title-1-font);
+    font-size: var(--title-1-size);
+    line-height: var(--title-1-lh);
+    font-weight: var(--title-1-wt);
+    letter-spacing: var(--title-1-ls);
+    text-wrap: balance;
+  }
+
+  .q-article__dek {
+    max-width: var(--measure);
+    margin-top: var(--s-5);
+    font-family: var(--lead-font);
+    font-size: var(--lead-size);
+    line-height: var(--lead-lh);
+    font-weight: var(--lead-wt);
+    letter-spacing: var(--lead-ls);
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+
+  .q-article__end {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    max-width: var(--measure);
+    margin-top: var(--s-9);
+  }
+
+  /* The meta becomes a row above the title. */
+  @container (max-width: 720px) {
+    .q-article__meta,
+    .q-article__body {
+      grid-column: 1 / -1;
+    }
+
+    .q-article__meta {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--s-2) var(--s-4);
+    }
+  }
+</style>

@@ -1,0 +1,6 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  // scripts/ holds one-off helpers outside the site build; design/ is the Claude Design export.
+  "exclude": ["dist", "scripts", "design"]
+}

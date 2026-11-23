@@ -1,0 +1,453 @@
+/* Tokens, base rules and shared primitives. Values and class names come from
+   design/handoff/QuietSystem.dc.html (quiet.css); components keep their own rules
+   in scoped styles under the same class names. */
+
+:root {
+  --bg: #0a0a09;
+  --surface: #121210;
+  --surface-raised: #171715;
+  --text: #eeeae2;
+  --text-bright: #ffffff;
+  --muted: #8f8b84;
+  --on-fill: #0a0a09;
+  --border: rgba(238, 234, 226, 0.12);
+  --border-strong: rgba(238, 234, 226, 0.3);
+  --tint: rgba(238, 234, 226, 0.06);
+  --focus: #eeeae2;
+  --shadow-overlay: 0 24px 60px rgba(0, 0, 0, 0.5);
+
+  /* --font-sans and --font-mono come from the Font API (astro.config.mjs). */
+  --wt-regular: 400;
+  --wt-medium: 500;
+  --wt-semibold: 600;
+
+  /* Type scale: each step is a set of five variables. Fluid sizes run from the
+     360px to the 1440px container width (cqw resolves against .q). */
+  --display-font: var(--font-sans);
+  --display-size: clamp(40px, 4.074cqw + 25.33px, 84px);
+  --display-lh: 0.98;
+  --display-wt: var(--wt-semibold);
+  --display-ls: -0.045em;
+  --mega-font: var(--font-sans);
+  --mega-size: clamp(28px, 7.778cqw, 112px);
+  --mega-lh: 1;
+  --mega-wt: var(--wt-semibold);
+  --mega-ls: -0.05em;
+  --statement-font: var(--font-sans);
+  --statement-size: clamp(28px, 2.222cqw + 20px, 52px);
+  --statement-lh: 1.08;
+  --statement-wt: var(--wt-medium);
+  --statement-ls: -0.035em;
+  --title-1-font: var(--font-sans);
+  --title-1-size: clamp(36px, 2.222cqw + 28px, 60px);
+  --title-1-lh: 1.02;
+  --title-1-wt: var(--wt-semibold);
+  --title-1-ls: -0.04em;
+  --title-2-font: var(--font-sans);
+  --title-2-size: clamp(28px, 1.111cqw + 24px, 40px);
+  --title-2-lh: 1.08;
+  --title-2-wt: var(--wt-semibold);
+  --title-2-ls: -0.035em;
+  --metric-font: var(--font-sans);
+  --metric-size: clamp(24px, 0.741cqw + 21.33px, 32px);
+  --metric-lh: 1.1;
+  --metric-wt: var(--wt-semibold);
+  --metric-ls: -0.03em;
+  --title-3-font: var(--font-sans);
+  --title-3-size: clamp(24px, 0.556cqw + 22px, 30px);
+  --title-3-lh: 1.15;
+  --title-3-wt: var(--wt-semibold);
+  --title-3-ls: -0.03em;
+  --quote-font: var(--font-sans);
+  --quote-size: clamp(21px, 0.37cqw + 19.67px, 25px);
+  --quote-lh: 1.4;
+  --quote-wt: var(--wt-regular);
+  --quote-ls: -0.02em;
+  --wordmark-font: var(--font-sans);
+  --wordmark-size: clamp(20px, 0.185cqw + 19.33px, 22px);
+  --wordmark-lh: 1;
+  --wordmark-wt: var(--wt-semibold);
+  --wordmark-ls: -0.04em;
+  --title-4-font: var(--font-sans);
+  --title-4-size: 20px;
+  --title-4-lh: 1.3;
+  --title-4-wt: var(--wt-semibold);
+  --title-4-ls: -0.015em;
+  --lead-font: var(--font-sans);
+  --lead-size: clamp(17px, 0.278cqw + 16px, 20px);
+  --lead-lh: 1.55;
+  --lead-wt: var(--wt-regular);
+  --lead-ls: 0;
+  --title-5-font: var(--font-sans);
+  --title-5-size: 18px;
+  --title-5-lh: 1.35;
+  --title-5-wt: var(--wt-medium);
+  --title-5-ls: -0.01em;
+  --body-lg-font: var(--font-sans);
+  --body-lg-size: clamp(17px, 0.093cqw + 16.67px, 18px);
+  --body-lg-lh: 1.7;
+  --body-lg-wt: var(--wt-regular);
+  --body-lg-ls: 0;
+  --body-font: var(--font-sans);
+  --body-size: 16px;
+  --body-lh: 1.6;
+  --body-wt: var(--wt-regular);
+  --body-ls: 0;
+  --label-font: var(--font-sans);
+  --label-size: 15px;
+  --label-lh: 1.4;
+  --label-wt: var(--wt-medium);
+  --label-ls: -0.005em;
+  --ui-font: var(--font-sans);
+  --ui-size: 15px;
+  --ui-lh: 1.4;
+  --ui-wt: var(--wt-regular);
+  --ui-ls: 0;
+  --small-font: var(--font-sans);
+  --small-size: 14px;
+  --small-lh: 1.45;
+  --small-wt: var(--wt-regular);
+  --small-ls: 0;
+  --small-strong-font: var(--font-sans);
+  --small-strong-size: 14px;
+  --small-strong-lh: 1.45;
+  --small-strong-wt: var(--wt-medium);
+  --small-strong-ls: 0;
+  --caption-font: var(--font-sans);
+  --caption-size: 13px;
+  --caption-lh: 1.4;
+  --caption-wt: var(--wt-regular);
+  --caption-ls: 0;
+  --caption-strong-font: var(--font-sans);
+  --caption-strong-size: 13px;
+  --caption-strong-lh: 1.4;
+  --caption-strong-wt: var(--wt-medium);
+  --caption-strong-ls: 0;
+  --code-font: var(--font-mono);
+  --code-size: clamp(13px, 0.093cqw + 12.67px, 14px);
+  --code-lh: 1.7;
+  --code-wt: var(--wt-regular);
+  --code-ls: 0;
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
+  --s-8: 40px;
+  --s-9: 48px;
+  --s-10: 64px;
+  --s-11: 80px;
+  --s-12: 96px;
+
+  /* Page side padding: fluid up to 96px, then wide enough to keep the content at
+     1248px. Never less than the side safe areas (the page sets viewport-fit=cover),
+     so content clears the notch of a phone held sideways. */
+  --gutter: max(
+    clamp(20px, 7.037cqw - 5.33px, 96px),
+    calc((100cqw - 1248px) / 2),
+    env(safe-area-inset-left),
+    env(safe-area-inset-right)
+  );
+  --gap: clamp(24px, 3.704cqw + 10.67px, 64px);
+  --flow-s: clamp(28px, 1.852cqw + 21.33px, 48px);
+  --flow-m: clamp(48px, 2.963cqw + 37.33px, 80px);
+  --flow-l: clamp(72px, 5.926cqw + 50.67px, 136px);
+
+  --control: 44px;
+  --control-sm: 40px;
+  --measure: 680px;
+  --measure-lead: 620px;
+  --profile-max: 440px;
+  --profile-key: 80px;
+  --date-col: 132px;
+  --index-col: 36px;
+  --fill-min: 600px;
+  --consent-w: 380px;
+  --underline-offset: 0.24em;
+  --nudge: 4px;
+  --nudge-lg: 0.12em;
+
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+  --bw: 1px;
+  --ring: 2px;
+  --ring-offset: 3px;
+
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-slow: 500ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  font-weight: var(--body-wt);
+  letter-spacing: var(--body-ls);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The page's query container: fluid tokens (cqw) and the responsive rules
+   (@container) follow its width. The consent banner sits outside it. */
+.q {
+  position: relative;
+  container-type: inline-size;
+}
+
+:where(h1, h2, h3, h4, p, dl, dd, ol, ul, figure, blockquote, pre) {
+  margin: 0;
+}
+
+a {
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: var(--ring) solid var(--focus);
+  outline-offset: var(--ring-offset);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  z-index: 10;
+  top: var(--s-4);
+  left: max(var(--s-4), env(safe-area-inset-left));
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.q-muted {
+  color: var(--muted);
+}
+
+/* Layout */
+
+.q-wrap {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.q-section {
+  padding-top: var(--flow-l);
+  padding-bottom: var(--flow-l);
+  border-top: var(--bw) solid var(--border);
+}
+
+.q-section--last {
+  padding-bottom: var(--flow-m);
+}
+
+.q-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: var(--s-5);
+}
+
+.q-col-label {
+  grid-column: span 3;
+}
+
+.q-col-content {
+  grid-column: span 9;
+}
+
+/* Short pages (Notes, 404) keep the footer low. */
+.q-main {
+  min-height: var(--fill-min);
+  padding-top: var(--flow-s);
+  padding-bottom: var(--flow-l);
+}
+
+@container (max-width: 720px) {
+  .q-col-label,
+  .q-col-content {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Buttons and links */
+
+.q-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  height: var(--control);
+  padding: 0 var(--s-5);
+  border: var(--bw) solid var(--border-strong);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--ui-size);
+  font-weight: var(--wt-regular);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.q-btn:hover {
+  border-color: var(--text);
+  background: var(--tint);
+}
+
+.q-btn--primary {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--on-fill);
+  font-weight: var(--wt-medium);
+}
+
+.q-btn--primary:hover {
+  border-color: var(--text-bright);
+  background: var(--text-bright);
+}
+
+.q-btn--sm {
+  height: var(--control-sm);
+  padding: 0 var(--s-4);
+  font-size: var(--small-size);
+}
+
+.q-link {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-decoration-thickness: var(--bw);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color var(--dur-fast) var(--ease);
+}
+
+.q-link:hover {
+  text-decoration-color: var(--text);
+}
+
+.q-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-7);
+}
+
+/* Section label */
+
+.q-label {
+  font-family: var(--label-font);
+  font-size: var(--label-size);
+  line-height: var(--label-lh);
+  font-weight: var(--label-wt);
+  letter-spacing: var(--label-ls);
+}
+
+.q-label__sub {
+  margin-top: var(--s-1);
+  font-family: var(--small-font);
+  font-size: var(--small-size);
+  line-height: var(--small-lh);
+  font-weight: var(--small-wt);
+  letter-spacing: var(--small-ls);
+  color: var(--muted);
+}
+
+/* Text */
+
+.q-lead {
+  font-family: var(--lead-font);
+  font-size: var(--lead-size);
+  line-height: var(--lead-lh);
+  font-weight: var(--lead-wt);
+  letter-spacing: var(--lead-ls);
+  text-wrap: pretty;
+}
+
+/* Page title and lead (Notes, 404) */
+
+.q-page-title {
+  font-family: var(--display-font);
+  font-size: var(--display-size);
+  line-height: var(--display-lh);
+  font-weight: var(--display-wt);
+  letter-spacing: var(--display-ls);
+  text-wrap: balance;
+}
+
+.q-page-lead {
+  max-width: var(--measure-lead);
+  margin-top: var(--s-5);
+  font-family: var(--lead-font);
+  font-size: var(--lead-size);
+  line-height: var(--lead-lh);
+  font-weight: var(--lead-wt);
+  letter-spacing: var(--lead-ls);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* Chips: small for stack tags (muted), large for Kit tools. */
+
+.q-chip {
+  padding: var(--s-1) var(--s-3);
+  border: var(--bw) solid var(--border);
+  border-radius: var(--r-pill);
+  font-family: var(--caption-font);
+  font-size: var(--caption-size);
+  line-height: var(--caption-lh);
+  font-weight: var(--caption-wt);
+  letter-spacing: var(--caption-ls);
+  color: var(--muted);
+}
+
+.q-chip--lg {
+  padding: var(--s-2) var(--s-4);
+  font-family: var(--small-font);
+  font-size: var(--small-size);
+  line-height: var(--small-lh);
+  font-weight: var(--small-wt);
+  letter-spacing: var(--small-ls);
+  color: var(--text);
+}

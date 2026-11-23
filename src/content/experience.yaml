@@ -1,0 +1,11 @@
+crypto-exchange-operations:
+  role: Operations & Internal Tools
+  org: Centralized crypto exchange
+  summary: "Supported day-to-day operations and built internal tools for several teams, including a few months with the risk & treasury team."
+  start: "2025-05"
+  end: "2026-08"
+  highlights:
+    - "Handled fund-flow tracing requests from colleagues, by user ID or transaction hash, across ERC20, BEP20 and TRC20 with a tracing tool I took over and extended."
+    - "Built and shipped a refund-and-hedge calculator that shows the net outcome after fees, funding and withdrawal costs."
+    - "Built web tooling for the exchange: TR/EN email templates for marketing campaigns, a public leaderboard page and site scripts with multi-domain support."
+  order: 1
