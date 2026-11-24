@@ -4,7 +4,7 @@ description: 'Without the OFAC list, my fund tracer called a Lazarus Group addre
 publishedAt: 2026-11-24
 ---
 
-At the centralized exchange where I worked, I developed a fund-tracing tool for the risk and treasury team. We used it to check clients, KOLs (crypto influencers) and people that business development managers brought in: for example, whether someone was eligible for a campaign, or was abusing one.
+At the centralized exchange where I worked, I took over a fund-tracing tool used by the risk and treasury team and extended it. We used it to check clients, KOLs (crypto influencers) and people that business development managers brought in: for example, whether someone was eligible for a campaign, or was abusing one.
 
 That tool had no sanctions check. When I rewrote it as open source in October 2026, I added one. fund-origin-tracer downloads the OFAC SDN list, the US Treasury's sanctions list, and keeps the Ethereum-style (EVM) and TRON addresses listed in it. Every address the tool meets is checked against them.
 
