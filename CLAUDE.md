@@ -17,15 +17,15 @@ sayfa + Notes (kısa yazılar, RSS).
 - **v1 kapsamı:** tek uzun ana sayfa + Notes.
 - **Stack:** Astro 7 statik çıktı. npm + Node 24 (Bun yok). TypeScript `astro/tsconfigs/strict`.
   Prettier + `prettier-plugin-astro` (Biome yok).
-- **Barındırma (2026-11-22):** site Docker'da çalışır. Sunucu düzeni, erişim, yayına alma ve
-  geri alma bu repoda değil, sahibinin özel notlarındadır; sunucuda bir komut çalıştırmadan önce
-  okunur. Bu siteye özgü olanlar aşağıdadır. `Dockerfile` iki aşamalıdır: `node` imajında
-  `npm ci && npm run build`, ardından `dist/` ve `nginx.conf` `nginxinc/nginx-unprivileged`
-  imajına; imajlar sürüm ve digest ile sabitlenir. `docker-compose.yml` imajı
-  `tarik-caykara-com:<sürüm>` olarak çalıştırır; sürüm, sunucudaki `.env`'de `SITE_VERSION` ile
-  verilir. Güvenlik başlıkları ve tek URL yönlendirmeleri (`.html` ve sondaki `/` olmadan)
-  `nginx.conf`'tadır; HSTS ve `nosniff` Cloudflare zon ayarından gelir. `scripts/check-site.sh`
-  hepsini denetler.
+- **Barındırma (2026-11-22):** site Docker'da çalışır. Sunucu düzeni, erişim ve sunucu tarafındaki
+  yayına alma ve geri alma adımları bu repoda değil, sahibinin özel notlarındadır; sunucuda bir
+  komut çalıştırmadan önce okunur. Bu siteye özgü olanlar aşağıdadır. `Dockerfile` iki
+  aşamalıdır: `node` imajında `npm ci && npm run build`, ardından `dist/` ve `nginx.conf`
+  `nginxinc/nginx-unprivileged` imajına; imajlar sürüm ve digest ile sabitlenir.
+  `docker-compose.yml` imajı `tarik-caykara-com:<sürüm>` olarak çalıştırır; sürüm, sunucudaki
+  `.env`'de `SITE_VERSION` ile verilir. Güvenlik başlıkları ve tek URL yönlendirmeleri (`.html`
+  ve sondaki `/` olmadan) `nginx.conf`'tadır; HSTS ve `nosniff` Cloudflare zon ayarından gelir.
+  `scripts/check-site.sh` hepsini denetler.
 - İçerik kaynağı `docs/CONTENT.md`. Sayı, kurum, sonuç uydurulmaz; eksik bilgi kullanıcıya sorulur.
 
 ## Dil
