@@ -17,18 +17,15 @@ sayfa + Notes (kısa yazılar, RSS).
 - **v1 kapsamı:** tek uzun ana sayfa + Notes.
 - **Stack:** Astro 7 statik çıktı. npm + Node 24 (Bun yok). TypeScript `astro/tsconfigs/strict`.
   Prettier + `prettier-plugin-astro` (Biome yok).
-- **Barındırma (2026-11-22):** site Tarık'ın web sunucusunda Docker'da çalışır.
-  Sunucunun bütün uygulamalar için ortak kuralları (erişim, onay, sudo ve docker grubu,
-  `/opt/apps/<uygulama>/` düzeni, yayına alma, geri alma, port tablosu, tunnel ve route'lar) bu
-  repoda değil, sahibinin özel notlarındadır; sunucuda bir komut çalıştırmadan önce okunur. Bu
-  siteye özgü olanlar aşağıdadır. `Dockerfile` iki aşamalıdır: `node` imajında
+- **Barındırma (2026-11-22):** site Docker'da çalışır. Sunucu düzeni, erişim, yayına alma ve
+  geri alma bu repoda değil, sahibinin özel notlarındadır; sunucuda bir komut çalıştırmadan önce
+  okunur. Bu siteye özgü olanlar aşağıdadır. `Dockerfile` iki aşamalıdır: `node` imajında
   `npm ci && npm run build`, ardından `dist/` ve `nginx.conf` `nginxinc/nginx-unprivileged`
-  imajına; imajlar sürüm ve digest ile sabitlenir. Sunucuda `/opt/apps/tarik.caykara.com/`
-  altında `docker-compose.yml` ve `.env` (`SITE_VERSION=<sürüm>`) bulunur; compose imajı
-  `tarik-caykara-com:<sürüm>` olarak çalıştırır ve konteyneri `127.0.0.1:8080`'de açar. `tarik`
-  CNAME kaydı ve route'u (`tarik.caykara.com` → `http://127.0.0.1:8080`) `caykara.com` zonundadır.
-  Güvenlik başlıkları ve tek URL yönlendirmeleri (`.html` ve sondaki `/` olmadan) `nginx.conf`'tadır;
-  HSTS ve `nosniff` Cloudflare zon ayarından gelir. `scripts/check-site.sh` hepsini denetler.
+  imajına; imajlar sürüm ve digest ile sabitlenir. `docker-compose.yml` imajı
+  `tarik-caykara-com:<sürüm>` olarak çalıştırır; sürüm, sunucudaki `.env`'de `SITE_VERSION` ile
+  verilir. Güvenlik başlıkları ve tek URL yönlendirmeleri (`.html` ve sondaki `/` olmadan)
+  `nginx.conf`'tadır; HSTS ve `nosniff` Cloudflare zon ayarından gelir. `scripts/check-site.sh`
+  hepsini denetler.
 - İçerik kaynağı `docs/CONTENT.md`. Sayı, kurum, sonuç uydurulmaz; eksik bilgi kullanıcıya sorulur.
 
 ## Dil
@@ -75,12 +72,12 @@ sayfa + Notes (kısa yazılar, RSS).
 - Merge'den sonra `master`'a geçilir, `git pull --ff-only`, yerel dal `git branch -D` ile silinir.
 - **Yayına alma:** sürümü artıran PR merge edildikten sonra ajan `master`'ı çeker, merge commit'ini
   etiketler ve gönderir: `git tag -a v<sürüm> -m v<sürüm> && git push origin v<sürüm>`. Ardından
-  sunucunun ortak "Yayına alma" akışı izlenir; bu sitede imaj `tarik-caykara-com:<sürüm>`,
-  uygulama dizini `/opt/apps/tarik.caykara.com/`, sürüm değişkeni `SITE_VERSION`'dır ve compose
-  dosyası değiştiyse `git show v<sürüm>:docker-compose.yml` sunucuya rsync'lenir. Ajan ardından
+  sahibinin özel notlarındaki "Yayına alma" akışı izlenir; bu sitede imaj `tarik-caykara-com:<sürüm>`,
+  sürüm değişkeni `SITE_VERSION`'dır ve compose dosyası değiştiyse yeni hali etiketten alınır
+  (`git show v<sürüm>:docker-compose.yml`). Ajan ardından
   `bash scripts/check-site.sh https://tarik.caykara.com` çalıştırır: canlıdaki
   `<meta name="version">` etiketteki sürümle aynı olmalı, yönlendirme ve başlık denetimleri
-  geçmelidir. Geri almak için `SITE_VERSION` önceki sürüme çevrilir (ortak kurallar, "Geri alma").
+  geçmelidir. Geri almak için `SITE_VERSION` önceki sürüme çevrilir (özel notlar, "Geri alma").
 
 ## Panel işleri
 
